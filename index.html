@@ -362,7 +362,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
    MOBILNE KOREKCIJE
    ============================================================ */
 @media(max-width:600px){
-  /* 1 — nadnaslov u hero-u ostaje u jednom redu */
+  /* nadnaslov u hero-u ostaje u jednom redu */
   .hero .oznaka{
     font-size:clamp(7.6px,2.35vw,11px);
     letter-spacing:.1em;
@@ -371,18 +371,31 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
   }
   .hero .oznaka::before{width:15px}
 
-  /* 2 — sadržaj sekcije Hala u wrapperu od 360px, centriran */
-  .hala-omot .hala-grid,
-  .traka-natpis{
-    max-width:360px;
+  /* JEDAN wrapper za sve sekcije: fiksnih 360px, centriran.
+     max-width čuva 16px gutera na telefonima užim od 392px. */
+  .omot{
+    width:360px;
+    max-width:calc(100% - 32px);
+    padding-inline:0;
     margin-inline:auto;
-    width:100%;
   }
+
+  /* meni se poravnava sa istim wrapperom */
+  .meni{padding-inline:max(16px,calc((100% - 360px)/2))}
+  .meni.otvoren{padding:20px max(16px,calc((100% - 360px)/2)) 34px}
+
+  /* hala: bez lokalnih ograničenja — sve puni wrapper */
+  .hala-omot .hala-grid,
+  .hala-omot .specifikacija{width:100%;max-width:360px;margin-inline:0}
+
+  /* video traka i dugme Pauza — kao na početku, puna širina sa osnovnim padingom */
   .traka-natpis{
-    left:50%;transform:translateX(-50%);right:auto;
-    flex-direction:column;align-items:flex-start;gap:12px;
+    left:0;right:0;
+    width:auto;max-width:none;
+    padding-inline:var(--gap);
+    margin-inline:0;
+    flex-direction:row;align-items:flex-end;justify-content:space-between;gap:20px;
   }
-  .hala-omot .specifikacija{max-width:360px;margin-inline:auto}
 }
 
 /* ============================================================
