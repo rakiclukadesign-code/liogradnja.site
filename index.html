@@ -517,7 +517,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 <section class="hala" id="hala">
   <div class="traka">
     <video id="videoHala" autoplay muted loop playsinline preload="metadata"
-      src="https://cdn.prod.website-files.com/6492e2026a0732d2cb214af1%2F68f388bb4109f8d166813789_Video-transcode.mp4"></video>
+      src="https://cdn.prod.website-files.com/6492e2026a0732d2cb214af1%2F6a5b7ea6e35f7d1443464d1b_Lio%20Gradnja%20prvi%20deo%20videa_mp4.mp4"></video>
     <div class="traka-veo"></div>
     <div class="omot traka-natpis">
       <span class="mono">Beloševac bb — 1.000 m² — objekat završen 2026.</span>
@@ -707,6 +707,10 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
   /* kontrola snimka hale */
   var vid = document.getElementById('videoHala'), dv = document.getElementById('dugmeVideo');
   if(vid && dv){
+    /* isti snimak kao u hero-u — krećemo od kasnijeg kadra da se ne ponavlja isti prizor */
+    vid.addEventListener('loadedmetadata', function(){
+      if(vid.duration && vid.duration > 12){ vid.currentTime = vid.duration * 0.45; }
+    });
     if(smanjeno){ vid.pause(); dv.textContent='Pusti'; }
     dv.addEventListener('click', function(){
       if(vid.paused){ vid.play(); dv.textContent='Pauza'; dv.setAttribute('aria-label','Pauziraj snimak'); }
