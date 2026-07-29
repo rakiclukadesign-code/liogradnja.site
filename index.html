@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LIO Gradnja — Niskogradnja, mehanizacija i nekretnine | Valjevo</title>
-<meta name="description" content="LIO Gradnja, Valjevo. Preko 20 godina u niskogradnji, prevozu i mehanizaciji. Poslovna hala od 1.000 m² za zakup u Beloševcu i poslednji stanovi u Dušanovoj 78.">
+<meta name="description" content="LIO Gradnja, Valjevo. Preko 20 godina u niskogradnji, prevozu i mehanizaciji. Poslovna hala od 1.000 m² za zakup u Beloševcu i poslovni lokal u Dušanovoj 78.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -258,6 +258,8 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 .kartica h3{font-size:clamp(19px,2vw,25px);letter-spacing:-.02em}
 .kartica p{margin:0;font-size:15px;color:#5A5548;line-height:1.6}
 .kartica ul{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.kartica--upit{justify-content:center}
+.kartica--upit h3{max-width:12ch}
 .kartica li{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:#5A5548;border:1px solid var(--linija);padding:5px 9px}
 
 /* ============================================================
@@ -361,6 +363,40 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 /* ============================================================
    MOBILNE KOREKCIJE
    ============================================================ */
+/* ---- lokal: jedini preostali prostor ---- */
+.lokal{
+  display:grid;grid-template-columns:1.1fr .9fr;
+  border:1px solid var(--linija);background:var(--bela);
+  margin-top:clamp(32px,4vw,52px);
+}
+.lokal-glavno{
+  padding:clamp(28px,3.6vw,52px);
+  display:flex;flex-direction:column;align-items:flex-start;gap:15px;
+  box-shadow:inset 3px 0 0 var(--zut);
+}
+.lokal-glavno h3{font-size:clamp(25px,3.2vw,40px);letter-spacing:-.03em}
+.lokal-glavno p{margin:0;font-size:15.5px;color:#5A5548;line-height:1.6;max-width:40ch}
+.lokal-glavno .dug{margin-top:12px}
+.lokal-podaci{
+  margin:0;padding:clamp(24px,3.2vw,44px);
+  border-left:1px solid var(--linija);background:var(--kost);
+  display:flex;flex-direction:column;justify-content:center;
+}
+.lokal-red{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:13px 0;border-bottom:1px solid var(--linija)}
+.lokal-red:last-child{border-bottom:0}
+.lokal-red dt{margin:0;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--beton)}
+.lokal-red dd{margin:0;font-family:var(--display);font-weight:700;font-size:15.5px;letter-spacing:-.01em;text-align:right}
+
+/* prodati objekti — referenca, ne ponuda */
+.prodato{
+  margin-top:clamp(28px,3.5vw,44px);padding-top:20px;
+  border-top:1px solid var(--linija);
+  display:flex;flex-wrap:wrap;gap:12px 40px;align-items:baseline;
+}
+.prodato-stavka{display:flex;align-items:baseline;gap:12px}
+.prodato-stavka b{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:-.01em}
+.prodato-stavka span{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--beton)}
+
 /* ---- dodirni ekrani: bez hover stanja, umesto toga odziv na dodir ---- */
 @media (hover:none){
   .dug{transition:opacity .15s ease}
@@ -387,6 +423,11 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 }
 
 @media(max-width:600px){
+  /* lokal: jedna kolona */
+  .lokal{grid-template-columns:1fr}
+  .lokal-podaci{border-left:0;border-top:1px solid var(--linija)}
+  .prodato{gap:12px 24px}
+
   /* 1 — 12px izmedju naslova sekcije i body teksta */
   .uvod{margin-top:12px}
   .presek-zag{gap:12px}
@@ -401,7 +442,11 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
   h1,h2,h3,.naslov-sekcije{text-wrap:balance}
   .uvod,.hero-podnaslov,.kartica p,.zgrada-zaglavlje p,.pojas-opis{text-wrap:pretty}
   .hero-podnaslov{max-width:none}
-  .kartica h3[style]{max-width:none}
+  .kartica--upit h3{
+    max-width:none;
+    white-space:nowrap;
+    font-size:clamp(15px,4.6vw,19px);
+  }
 
   /* nadnaslov u hero-u ostaje u jednom redu */
   .hero .oznaka{
@@ -575,8 +620,8 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
       <article class="kartica">
         <span class="kartica-br">04 — Investicije</span>
         <h3>Stanovi</h3>
-        <p>Sopstvena izgradnja stambenih objekata u Valjevu. U Dušanovoj 78 ostala su tri prostora.</p>
-        <ul><li>Prodaja</li><li>Ključ u ruke</li></ul>
+        <p>Sopstvena izgradnja stambenih objekata u Valjevu. Dušanova 78/a i 78/b — stanovi prodati, slobodan je lokal u prizemlju.</p>
+        <ul><li>Novogradnja</li><li>Lokal u ponudi</li></ul>
       </article>
       <article class="kartica">
         <span class="kartica-br">05 — Investicije</span>
@@ -584,9 +629,9 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
         <p>Završena hala od 1.000 m² u industrijskoj zoni Beloševac. Useljiva odmah — proizvodnja, skladištenje ili logistika.</p>
         <ul><li>Zakup</li><li>Logistika</li><li>Skladište</li></ul>
       </article>
-      <article class="kartica" style="justify-content:center">
+      <article class="kartica kartica--upit">
         <span class="kartica-br">Upit</span>
-        <h3 style="max-width:12ch">Recite nam šta gradite.</h3>
+        <h3>Recite nam šta gradite.</h3>
         <p>Izlazak na teren i procena u okviru Kolubarskog okruga — bez naknade.</p>
         <a href="tel:+381656513351" class="dug dug--tamno" style="align-self:flex-start;margin-top:8px">Pozovite <span class="strelica">→</span></a>
       </article>
@@ -636,68 +681,30 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
     <div class="presek-zag otkrij">
       <div>
         <p class="oznaka oznaka--tiho">Nekretnine</p>
-        <h2 class="naslov-sekcije" style="margin-top:20px">Ostala su tri prostora.</h2>
+        <h2 class="naslov-sekcije" style="margin-top:20px">Ostao je samo lokal.</h2>
       </div>
-      <div>
-        <p class="uvod">Dva objekta u Dušanovoj 78, u centru Valjeva. Gotovo sve je prodato — evo šta je još slobodno.</p>
-        <span class="preostalo"><b>3</b> od 12 jedinica</span>
-      </div>
+      <p class="uvod">Svi stanovi u Dušanovoj 78 su prodati. Slobodan je još poslovni prostor u prizemlju objekta 78/a &mdash; ulični nivo, centar Valjeva.</p>
     </div>
 
-    <div class="zgrade otkrij">
-      <!-- 78/a -->
-      <article class="zgrada">
-        <div class="zgrada-zaglavlje">
-          <h3>Dušanova 78/a</h3>
-          <p>Slobodni lokal u prizemlju i jedan stan na četvrtom spratu.</p>
-        </div>
-        <div class="spratovi">
-          <div class="sprat sprat--slobodan">
-            <span class="sprat-ime">Lokal
-              <span class="sprat-mesto">Prizemlje — poslovni prostor</span>
-            </span>
-            <span class="cip cip--slobodno">U ponudi</span>
-          </div>
-          <div class="sprat sprat--prodat"><span class="sprat-ime">Galerija</span><span class="cip">Prodato</span></div>
-          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 1</span><span class="cip">Prodato</span></div>
-          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 2</span><span class="cip">Prodato</span></div>
-          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 3</span><span class="cip">Prodato</span></div>
-          <div class="sprat sprat--slobodan">
-            <span class="sprat-ime">Stan br. 16
-              <span class="sprat-mesto">Sprat 4</span>
-            </span>
-            <span class="cip cip--slobodno">U ponudi</span>
-          </div>
-          <div class="sprat sprat--prodat"><span class="sprat-ime">Potkrovlje</span><span class="cip">Prodato</span></div>
-        </div>
-        <div class="zgrada-podnozje">
-          <span class="mono" style="color:#5A5548">Useljivo</span>
-          <a href="tel:+381656513351" class="dug dug--tamno">Upit <span class="strelica">&rarr;</span></a>
-        </div>
-      </article>
+    <div class="lokal otkrij">
+      <div class="lokal-glavno">
+        <span class="cip cip--slobodno">U ponudi</span>
+        <h3>Lokal u Dušanovoj 78/a</h3>
+        <p>Poslovni prostor u prizemlju novogradnje, sa izlazom na ulicu. Pogodan za trgovinu, uslužnu delatnost ili kancelariju.</p>
+        <a href="tel:+381656513351" class="dug dug--tamno">Upit i obilazak <span class="strelica">&rarr;</span></a>
+      </div>
+      <dl class="lokal-podaci">
+        <div class="lokal-red"><dt>Adresa</dt><dd>Dušanova 78/a, Valjevo</dd></div>
+        <div class="lokal-red"><dt>Etaža</dt><dd>Prizemlje</dd></div>
+        <div class="lokal-red"><dt>Namena</dt><dd>Poslovni prostor</dd></div>
+        <div class="lokal-red"><dt>Kvadratura</dt><dd>Na upit</dd></div>
+        <div class="lokal-red"><dt>Status</dt><dd>Slobodan</dd></div>
+      </dl>
+    </div>
 
-      <!-- 78/b -->
-      <article class="zgrada">
-        <div class="zgrada-zaglavlje">
-          <h3>Dušanova 78/b</h3>
-          <p>Jedan stan, dupleks preko četvrtog sprata i potkrovlja.</p>
-        </div>
-        <div class="spratovi">
-          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 1</span><span class="cip">Prodato</span></div>
-          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 2</span><span class="cip">Prodato</span></div>
-          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 3</span><span class="cip">Prodato</span></div>
-          <div class="sprat sprat--slobodan">
-            <span class="sprat-ime">Stan br. 15
-              <span class="sprat-mesto">Sprat 4 + potkrovlje &middot; dupleks</span>
-            </span>
-            <span class="cip cip--slobodno">U ponudi</span>
-          </div>
-        </div>
-        <div class="zgrada-podnozje">
-          <span class="mono" style="color:#5A5548">Useljivo</span>
-          <a href="tel:+381656513351" class="dug dug--tamno">Upit <span class="strelica">&rarr;</span></a>
-        </div>
-      </article>
+    <div class="prodato otkrij">
+      <div class="prodato-stavka"><b>Dušanova 78/a</b><span>Stanovi prodati</span></div>
+      <div class="prodato-stavka"><b>Dušanova 78/b</b><span>Prodato u celosti</span></div>
     </div>
   </div>
 </section>
@@ -717,8 +724,6 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
         <div class="podatak"><dt>Adresa</dt><dd>Prijedorska 13<br>14000 Valjevo, Srbija</dd></div>
         <div class="podatak"><dt>Telefon</dt><dd>
           <a href="tel:+381656513351">+381 65 65 13 351</a>
-          <a href="tel:+381648016247">+381 64 80 16 247</a>
-          <a href="tel:+38162231870">+381 62 23 18 70</a>
         </dd></div>
         <div class="podatak"><dt>E-pošta</dt><dd><a href="mailto:liogradnja@yahoo.com">liogradnja@yahoo.com</a></dd></div>
         <div class="podatak"><dt>Gradilište</dt><dd>Hala — Beloševac bb<br>Stanovi — Dušanova 78</dd></div>
