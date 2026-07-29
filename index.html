@@ -361,7 +361,48 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 /* ============================================================
    MOBILNE KOREKCIJE
    ============================================================ */
+/* ---- dodirni ekrani: bez hover stanja, umesto toga odziv na dodir ---- */
+@media (hover:none){
+  .dug{transition:opacity .15s ease}
+  .dug:hover .strelica,.dug .strelica{transform:none}
+  .dug--puno:hover{background:var(--zut);color:var(--bit)}
+  .dug--linija:hover{background:transparent;color:var(--kost);border-color:rgba(233,229,220,.4)}
+  .dug--tamno:hover{background:transparent;color:var(--bit);border-color:var(--linija)}
+  .dug:active{opacity:.62}
+  .traka-dugme{transition:opacity .15s ease}
+  .traka-dugme:hover{background:none;color:rgba(233,229,220,.8);border-color:rgba(233,229,220,.34)}
+  .traka-dugme:active{opacity:.62}
+  .tel-zag:hover{background:var(--zut)}
+  .kartica:hover{background:var(--bela)}
+  .pojas:hover,.pojas--dole:hover{background:inherit}
+  .pojas--d1:hover{background:var(--zemlja)}
+  .pojas--d2:hover{background:#211E18}
+  .pojas--d3:hover{background:#1B1914}
+  .pojas--d4:hover{background:var(--bit)}
+  .pojas--gore:hover{background:var(--bela)}
+  .sprat:hover{background:transparent}
+  .sprat--prodat:hover{opacity:.34}
+  .sprat--slobodan:hover{background:rgba(201,146,43,.09)}
+  .meni a:hover::after{width:0}
+}
+
 @media(max-width:600px){
+  /* 1 — 12px izmedju naslova sekcije i body teksta */
+  .uvod{margin-top:12px}
+  .presek-zag{gap:12px}
+  .zgrada-zaglavlje p{margin-top:12px}
+
+  /* 4 — naslovi sekcija dišu */
+  .naslov-sekcije{line-height:1.16;max-width:none}
+  .hero h1{line-height:1.08;max-width:none}
+  .kartica h3,.zgrada-zaglavlje h3{line-height:1.14}
+
+  /* 2 — bez usamljene reči u novom redu */
+  h1,h2,h3,.naslov-sekcije{text-wrap:balance}
+  .uvod,.hero-podnaslov,.kartica p,.zgrada-zaglavlje p,.pojas-opis{text-wrap:pretty}
+  .hero-podnaslov{max-width:none}
+  .kartica h3[style]{max-width:none}
+
   /* nadnaslov u hero-u ostaje u jednom redu */
   .hero .oznaka{
     font-size:clamp(7.6px,2.35vw,11px);
@@ -630,7 +671,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
           <div class="sprat sprat--prodat"><span class="sprat-ime">Potkrovlje</span><span class="cip">Prodato</span></div>
         </div>
         <div class="zgrada-podnozje">
-          <span class="mono" style="color:#5A5548">Tlocrt i kvadratura na upit</span>
+          <span class="mono" style="color:#5A5548">Useljivo</span>
           <a href="tel:+381656513351" class="dug dug--tamno">Upit <span class="strelica">&rarr;</span></a>
         </div>
       </article>
@@ -653,7 +694,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
           </div>
         </div>
         <div class="zgrada-podnozje">
-          <span class="mono" style="color:#5A5548">Useljivo po dogovoru</span>
+          <span class="mono" style="color:#5A5548">Useljivo</span>
           <a href="tel:+381656513351" class="dug dug--tamno">Upit <span class="strelica">&rarr;</span></a>
         </div>
       </article>
