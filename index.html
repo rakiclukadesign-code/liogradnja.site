@@ -29,7 +29,8 @@
   --telo:     'IBM Plex Sans', system-ui, sans-serif;
   --mono:     'IBM Plex Mono', ui-monospace, monospace;
 
-  --sirina:   1280px;
+  --sirina:   1272px;
+  --guter:    32px;
   --gap:      clamp(24px, 5vw, 80px);
   --sekcija:  clamp(72px, 9vw, 140px);
 }
@@ -53,7 +54,14 @@ img,video,svg{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--zut);outline-offset:3px}
 
-.omot{width:100%;max-width:var(--sirina);margin-inline:auto;padding-inline:var(--gap)}
+/* Jedan wrapper za sve sekcije: fiksnih 1272px na desktopu.
+   max-width čuva 32px gutera kad je prozor uži od 1336px. */
+.omot{
+  width:var(--sirina);
+  max-width:calc(100% - 2 * var(--guter));
+  margin-inline:auto;
+  padding-inline:0;
+}
 
 /* ---------- tipografija ---------- */
 .oznaka{
@@ -276,6 +284,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 }
 .traka-natpis{
   position:absolute;left:0;right:0;bottom:22px;z-index:3;
+  margin-inline:auto;
   display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
 }
 .traka-natpis .mono{color:rgba(233,229,220,.72);font-size:10.5px}
