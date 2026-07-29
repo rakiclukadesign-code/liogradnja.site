@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIO Gradnja — Niskogradnja, mehanizacija i nekretnine | Valjevo</title>
+<meta name="description" content="LIO Gradnja, Valjevo. Preko 20 godina u niskogradnji, prevozu i mehanizaciji. Poslovna hala od 1.000 m² za zakup u Beloševcu i poslednji stanovi u Dušanovoj 78.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   LIO GRADNJA — tokeni
+   ============================================================ */
+:root{
+  --bit:      #14130F;   /* bitumen — najtamnija, tlo */
+  --zemlja:   #26231C;   /* zbijena zemlja */
+  --sloj:     #3A362C;   /* tamponski sloj */
+  --beton:    #8C8778;   /* beton / kameni agregat */
+  --kost:     #E9E5DC;   /* krečnjak — svetla površina */
+  --bela:     #FBFAF7;
+  --zut:      #C9922B;   /* signalna oker — mehanizacija, obeležavanje */
+  --zut-mek:  #E3B860;
+
+  --linija:   rgba(20,19,15,.14);
+  --linija-t: rgba(233,229,220,.16);
+
+  --display:  'Archivo', system-ui, sans-serif;
+  --telo:     'IBM Plex Sans', system-ui, sans-serif;
+  --mono:     'IBM Plex Mono', ui-monospace, monospace;
+
+  --sirina:   1280px;
+  --gap:      clamp(24px, 5vw, 80px);
+  --sekcija:  clamp(72px, 9vw, 140px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+body{
+  margin:0;
+  background:var(--kost);
+  color:var(--bit);
+  font-family:var(--telo);
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+img,video,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--zut);outline-offset:3px}
+
+.omot{width:100%;max-width:var(--sirina);margin-inline:auto;padding-inline:var(--gap)}
+
+/* ---------- tipografija ---------- */
+.oznaka{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--zut);display:flex;align-items:center;gap:12px;
+}
+.oznaka::before{content:"";width:26px;height:1px;background:var(--zut);flex:none}
+.oznaka--tiho{color:var(--beton)}
+.oznaka--tiho::before{background:var(--beton)}
+
+h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-height:1.02;margin:0}
+.naslov-sekcije{font-size:clamp(30px,4.2vw,54px);max-width:16ch}
+.uvod{font-size:clamp(16px,1.5vw,19px);color:#4B473E;max-width:56ch;margin:18px 0 0}
+
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+
+/* ---------- dugmad ---------- */
+.dug{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:12px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;
+  padding:16px 26px;border:1px solid transparent;
+  transition:background .28s ease,color .28s ease,border-color .28s ease;
+}
+.dug .strelica{transition:transform .28s ease}
+.dug:hover .strelica{transform:translateX(5px)}
+.dug--puno{background:var(--zut);color:var(--bit)}
+.dug--puno:hover{background:var(--bit);color:var(--kost)}
+.dug--linija{border-color:rgba(233,229,220,.4);color:var(--kost)}
+.dug--linija:hover{border-color:var(--kost);background:var(--kost);color:var(--bit)}
+.dug--tamno{border-color:var(--linija);color:var(--bit)}
+.dug--tamno:hover{background:var(--bit);color:var(--kost);border-color:var(--bit)}
+
+/* ============================================================
+   ZAGLAVLJE
+   ============================================================ */
+.zaglavlje{
+  position:fixed;inset:0 0 auto;z-index:60;
+  padding:18px 0;
+  transition:background .35s ease,padding .35s ease,border-color .35s ease;
+  border-bottom:1px solid transparent;
+}
+.zaglavlje.zalepljeno{
+  background:rgba(20,19,15,.94);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  padding:12px 0;border-bottom-color:var(--linija-t);
+}
+.zaglavlje-red{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.znak{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:.02em;color:var(--kost);display:flex;align-items:baseline;gap:9px}
+.znak span{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;color:var(--zut);font-weight:500}
+.meni{display:flex;gap:34px;align-items:center}
+.meni a{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(233,229,220,.78);padding:4px 0;position:relative;transition:color .25s ease;
+}
+.meni a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--zut);transition:width .3s ease}
+.meni a:hover{color:var(--kost)}
+.meni a:hover::after{width:100%}
+.tel-zag{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;
+  color:var(--bit);background:var(--zut);padding:11px 18px;transition:background .25s ease;
+}
+.tel-zag:hover{background:var(--zut-mek)}
+.burger{display:none;background:none;border:0;padding:10px;cursor:pointer}
+.burger span{display:block;width:24px;height:1.5px;background:var(--kost);margin:5px 0;transition:transform .3s,opacity .3s}
+.burger.otvoren span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.burger.otvoren span:nth-child(2){opacity:0}
+.burger.otvoren span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+@media(max-width:900px){
+  .meni{
+    position:fixed;inset:64px 0 auto;flex-direction:column;align-items:flex-start;gap:0;
+    background:var(--bit);padding:0 var(--gap);max-height:0;overflow:hidden;
+    transition:max-height .4s ease,padding .4s ease;border-bottom:1px solid var(--linija-t);
+  }
+  .meni.otvoren{max-height:400px;padding:20px var(--gap) 34px}
+  .meni a{font-size:15px;padding:14px 0;letter-spacing:.1em;width:100%}
+  .burger{display:block}
+  .tel-zag{display:none}
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;background:var(--bit);overflow:hidden}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+.hero-veo{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(to top,rgba(20,19,15,.97) 0%,rgba(20,19,15,.62) 42%,rgba(20,19,15,.5) 100%),
+    linear-gradient(to right,rgba(20,19,15,.8) 0%,rgba(20,19,15,0) 62%);
+}
+.hero-sadrzaj{position:relative;z-index:2;padding-top:150px;padding-bottom:0}
+.hero h1{
+  color:var(--bela);
+  font-size:clamp(40px,6.6vw,86px);
+  max-width:15ch;margin:26px 0 0;
+}
+.hero h1 em{font-style:normal;color:var(--zut)}
+.hero-podnaslov{color:rgba(233,229,220,.8);font-size:clamp(16px,1.6vw,19px);max-width:50ch;margin:24px 0 0}
+.hero-akcije{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+
+/* --- kota terena: potpis sajta --- */
+.kota{position:relative;z-index:2;margin-top:clamp(48px,7vw,86px)}
+.kota-linija{
+  position:relative;height:1px;background:rgba(233,229,220,.34);
+}
+.kota-linija::after{
+  content:"";position:absolute;left:0;top:0;height:100%;width:var(--napredak,0%);
+  background:var(--zut);transition:width 1.4s cubic-bezier(.2,.7,.2,1) .3s;
+}
+.kota-oznake{display:flex;justify-content:space-between;padding:10px 0 0}
+.kota-oznake .mono{color:rgba(233,229,220,.5);font-size:10px}
+.brojevi{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid rgba(233,229,220,.14);margin-top:22px;
+}
+.broj{padding:26px 18px clamp(34px,4vw,52px);border-right:1px solid rgba(233,229,220,.14);text-align:center}
+.broj:last-child{border-right:0}
+.broj strong{
+  display:block;font-family:var(--display);font-weight:800;
+  font-size:clamp(38px,5vw,64px);color:var(--bela);line-height:1;letter-spacing:-.04em;
+}
+.broj strong i{font-style:normal;color:var(--zut)}
+.broj span{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.19em;text-transform:uppercase;color:rgba(233,229,220,.55);margin-top:12px}
+@media(max-width:640px){
+  .brojevi{grid-template-columns:1fr;}
+  .broj{border-right:0;border-bottom:1px solid rgba(233,229,220,.14);padding:20px 0}
+  .broj:last-child{border-bottom:0;padding-bottom:40px}
+  .broj strong{font-size:40px}
+}
+
+/* ============================================================
+   PRESEK — potpisni element
+   ============================================================ */
+.presek-sekcija{padding:var(--sekcija) 0;background:var(--kost)}
+.presek-zag{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:end;margin-bottom:clamp(40px,5vw,64px)}
+@media(max-width:860px){.presek-zag{grid-template-columns:1fr;gap:20px}}
+
+.dijagram{border:1px solid var(--linija);background:var(--bela)}
+
+.pojas{
+  display:grid;grid-template-columns:minmax(150px,220px) 1fr minmax(88px,120px);
+  align-items:center;gap:clamp(16px,3vw,40px);
+  padding:0 clamp(18px,3vw,32px);
+  border-bottom:1px solid var(--linija);
+  position:relative;overflow:hidden;
+  transition:background .3s ease;
+}
+.pojas:last-child{border-bottom:0}
+.pojas:hover{background:rgba(201,146,43,.06)}
+.pojas-ime{font-family:var(--display);font-weight:700;font-size:clamp(15px,1.7vw,20px);letter-spacing:-.01em;position:relative;z-index:2}
+.pojas-opis{font-size:14.5px;color:#5A5548;line-height:1.5;position:relative;z-index:2}
+.pojas-mera{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-align:right;color:var(--beton);position:relative;z-index:2}
+
+/* iznad kote */
+.pojas--gore{min-height:132px;background:var(--bela)}
+.pojas--gore .pojas-ime{color:var(--bit)}
+
+/* linija kote 0.00 */
+.kota-nula{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:0 clamp(18px,3vw,32px);height:34px;
+  background:var(--zut);color:var(--bit);
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+}
+
+/* ispod kote — sve tamnije naniže */
+.pojas--dole{color:var(--kost)}
+.pojas--dole .pojas-opis{color:rgba(233,229,220,.62)}
+.pojas--dole .pojas-mera{color:rgba(233,229,220,.45)}
+.pojas--dole:hover{background:rgba(201,146,43,.1)}
+.pojas--d1{background:var(--zemlja);min-height:78px}
+.pojas--d2{background:#211E18;min-height:96px}
+.pojas--d3{background:#1B1914;min-height:118px}
+.pojas--d4{background:var(--bit);min-height:150px;border-bottom:0}
+
+/* šrafura koja raste pri skrolu */
+.srafura{position:absolute;inset:0;opacity:0;transition:opacity 1s ease}
+.dijagram.vidljiv .srafura{opacity:1}
+.srafura--tacke{background-image:radial-gradient(rgba(233,229,220,.16) 1px,transparent 1px);background-size:9px 9px}
+.srafura--kosa{background-image:repeating-linear-gradient(45deg,rgba(233,229,220,.07) 0 1px,transparent 1px 9px)}
+.srafura--zrno{background-image:radial-gradient(rgba(233,229,220,.1) 1.4px,transparent 1.4px);background-size:14px 14px}
+.srafura--puna{background-image:repeating-linear-gradient(90deg,rgba(233,229,220,.05) 0 1px,transparent 1px 6px)}
+
+@media(max-width:720px){
+  .pojas{grid-template-columns:1fr;gap:6px;padding-block:20px;align-items:start}
+  .pojas-mera{text-align:left}
+  .pojas--gore,.pojas--d1,.pojas--d2,.pojas--d3,.pojas--d4{min-height:0}
+}
+
+/* ============================================================
+   DELATNOST
+   ============================================================ */
+.delatnost{padding:var(--sekcija) 0;background:var(--bela);border-top:1px solid var(--linija)}
+.mreza-delatnosti{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--linija);border:1px solid var(--linija);margin-top:clamp(40px,5vw,60px)}
+@media(max-width:900px){.mreza-delatnosti{grid-template-columns:1fr}}
+.kartica{background:var(--bela);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:14px;transition:background .3s ease}
+.kartica:hover{background:var(--kost)}
+.kartica-br{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--beton)}
+.kartica h3{font-size:clamp(19px,2vw,25px);letter-spacing:-.02em}
+.kartica p{margin:0;font-size:15px;color:#5A5548;line-height:1.6}
+.kartica ul{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.kartica li{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:#5A5548;border:1px solid var(--linija);padding:5px 9px}
+
+/* ============================================================
+   HALA
+   ============================================================ */
+.hala{position:relative;background:var(--bit);color:var(--kost)}
+
+/* video traka — puna širina, pun kontrast */
+.traka{position:relative;width:100%;height:clamp(340px,62svh,660px);overflow:hidden;background:var(--bit)}
+.traka video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.traka-veo{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(20,19,15,.35) 0%,rgba(20,19,15,0) 26%,rgba(20,19,15,0) 62%,rgba(20,19,15,.92) 100%);
+}
+.traka-natpis{
+  position:absolute;left:0;right:0;bottom:22px;z-index:3;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
+}
+.traka-natpis .mono{color:rgba(233,229,220,.72);font-size:10.5px}
+.traka-dugme{
+  background:none;border:1px solid rgba(233,229,220,.34);color:rgba(233,229,220,.8);
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  padding:8px 14px;cursor:pointer;transition:background .25s ease,color .25s ease,border-color .25s ease;
+}
+.traka-dugme:hover{background:var(--kost);color:var(--bit);border-color:var(--kost)}
+.hala-omot{position:relative;z-index:2;padding:clamp(48px,6vw,80px) 0 var(--sekcija)}
+.hala h2{color:var(--bela);margin-top:24px}
+.hala .uvod{color:rgba(233,229,220,.72)}
+.hala-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:var(--gap);align-items:end}
+@media(max-width:900px){.hala-grid{grid-template-columns:1fr;align-items:start}}
+.specifikacija{border-top:1px solid var(--linija-t)}
+.spec-red{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--linija-t)}
+.spec-red dt{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(233,229,220,.5);margin:0}
+.spec-red dd{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(17px,1.9vw,22px);letter-spacing:-.02em;color:var(--bela)}
+.spec-red dd b{color:var(--zut);font-weight:700}
+.status{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--zut);margin-top:26px}
+.tacka{width:7px;height:7px;border-radius:50%;background:var(--zut);position:relative;flex:none}
+.tacka::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid var(--zut);opacity:.45;animation:puls 2.4s ease-out infinite}
+@keyframes puls{0%{transform:scale(.7);opacity:.6}100%{transform:scale(1.5);opacity:0}}
+
+/* ============================================================
+   NEKRETNINE
+   ============================================================ */
+.nekretnine{padding:var(--sekcija) 0;background:var(--kost)}
+.zgrade{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-top:clamp(40px,5vw,60px)}
+@media(max-width:860px){.zgrade{grid-template-columns:1fr}}
+.zgrada{border:1px solid var(--linija);background:var(--bela);display:flex;flex-direction:column}
+.zgrada-zaglavlje{padding:clamp(24px,3vw,32px);border-bottom:1px solid var(--linija)}
+.zgrada-zaglavlje h3{font-size:clamp(22px,2.4vw,30px)}
+.zgrada-zaglavlje p{margin:12px 0 0;font-size:14.5px;color:#5A5548}
+.spratovi{display:flex;flex-direction:column-reverse}
+.sprat{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:11px clamp(24px,3vw,32px);border-top:1px solid var(--linija);
+  transition:background .25s ease,opacity .25s ease;
+}
+.sprat-ime{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase}
+
+/* prodate etaže se povlače */
+.sprat--prodat{opacity:.34}
+.sprat--prodat:hover{opacity:.6}
+.sprat--prodat .cip{border:0;padding:0;font-size:9.5px}
+
+/* slobodno — jedina stvar koja se vidi */
+.sprat--slobodan{
+  position:relative;padding-block:20px;
+  background:rgba(201,146,43,.09);
+  box-shadow:inset 3px 0 0 var(--zut);
+  align-items:flex-start;
+}
+.sprat--slobodan .sprat-ime{font-family:var(--display);font-weight:700;font-size:clamp(17px,1.9vw,21px);letter-spacing:-.02em;text-transform:none}
+.sprat-mesto{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#5A5548;margin-top:7px}
+.cip{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border:1px solid var(--linija);color:#5A5548;white-space:nowrap}
+.cip--slobodno{background:var(--zut);border-color:var(--zut);color:var(--bit);font-weight:600}
+
+/* brojač preostalog */
+.preostalo{
+  display:inline-flex;align-items:baseline;gap:10px;margin-top:22px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#5A5548;
+}
+.preostalo b{font-family:var(--display);font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--zut)}
+.zgrada-podnozje{margin-top:auto;padding:clamp(20px,3vw,28px);border-top:1px solid var(--linija);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+
+/* ============================================================
+   KONTAKT / PODNOŽJE
+   ============================================================ */
+.kontakt{background:var(--bit);color:var(--kost);padding:var(--sekcija) 0 0}
+.kontakt h2{color:var(--bela);max-width:14ch}
+.kontakt-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:var(--gap);align-items:start}
+@media(max-width:860px){.kontakt-grid{grid-template-columns:1fr}}
+.podaci{border-top:1px solid var(--linija-t);margin-top:8px}
+.podatak{display:grid;grid-template-columns:minmax(90px,130px) 1fr;gap:20px;padding:18px 0;border-bottom:1px solid var(--linija-t);align-items:baseline}
+.podatak dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(233,229,220,.45)}
+.podatak dd{margin:0;font-size:16px}
+.podatak dd a{display:block;transition:color .25s ease}
+.podatak dd a:hover{color:var(--zut)}
+.podnozje{border-top:1px solid var(--linija-t);margin-top:clamp(56px,7vw,90px);padding:26px 0 34px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.podnozje .mono{color:rgba(233,229,220,.4);font-size:10.5px}
+.podnozje-linkovi{display:flex;gap:24px}
+
+/* ============================================================
+   otkrivanje pri skrolu
+   ============================================================ */
+.otkrij{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.otkrij.vidljiv{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.otkrij{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- ===================== ZAGLAVLJE ===================== -->
+<header class="zaglavlje" id="zaglavlje">
+  <div class="omot zaglavlje-red">
+    <a href="#" class="znak">LIO GRADNJA <span>VALJEVO</span></a>
+    <nav class="meni" id="meni">
+      <a href="#presek">Delatnost</a>
+      <a href="#hala">Hala</a>
+      <a href="#nekretnine">Nekretnine</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="tel-zag" href="tel:+381656513351">065 65 13 351</a>
+    <button class="burger" id="burger" aria-label="Meni" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="metadata"
+    src="https://cdn.prod.website-files.com/6492e2026a0732d2cb214af1%2F6a5b7ea6e35f7d1443464d1b_Lio%20Gradnja%20prvi%20deo%20videa_mp4.mp4"></video>
+  <div class="hero-veo"></div>
+
+  <div class="omot hero-sadrzaj">
+    <p class="oznaka">Niskogradnja &nbsp;/&nbsp; Mehanizacija &nbsp;/&nbsp; Nekretnine</p>
+    <h1>Ono što se ne vidi <em>drži sve ostalo.</em></h1>
+    <p class="hero-podnaslov">Dvadeset godina iskopa, nasipa i puteva u valjevskom kraju. Radimo ispod kote terena — i od skoro gradimo iznad nje.</p>
+    <div class="hero-akcije">
+      <a href="#hala" class="dug dug--puno">Hala za zakup <span class="strelica">→</span></a>
+      <a href="#presek" class="dug dug--linija">Šta radimo <span class="strelica">→</span></a>
+    </div>
+
+    <!-- potpis: kota terena -->
+    <div class="kota">
+      <div class="kota-linija" id="kotaLinija"></div>
+      <div class="kota-oznake">
+        <span class="mono">Kota ±0,00</span>
+        <span class="mono">14000 Valjevo</span>
+      </div>
+      <div class="brojevi">
+        <div class="broj"><strong data-broj="20">0</strong><span>Godina iskustva</span></div>
+        <div class="broj"><strong data-broj="250">0</strong><span>Realizovanih projekata</span></div>
+        <div class="broj"><strong data-broj="10">0</strong><span>Jedinica mehanizacije</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRESEK ===================== -->
+<section class="presek-sekcija" id="presek">
+  <div class="omot">
+    <div class="presek-zag otkrij">
+      <div>
+        <p class="oznaka">Presek terena</p>
+        <h2 class="naslov-sekcije" style="margin-top:20px">Sve što radimo, u odnosu na kotu.</h2>
+      </div>
+      <p class="uvod">Put, plato ili temelj — svaki posao počinje ispod površine i završava se slojem koji se jedini vidi. Ovako izgleda naša delatnost u preseku, od posteljice naviše.</p>
+    </div>
+
+    <div class="dijagram otkrij" id="dijagram">
+      <!-- IZNAD KOTE -->
+      <div class="pojas pojas--gore">
+        <div class="pojas-ime">Iznad kote</div>
+        <div class="pojas-opis">Visokogradnja i sopstvene investicije: stambeni objekti u Dušanovoj 78/a i 78/b i završena poslovna hala u Beloševcu.</div>
+        <div class="pojas-mera">+0,00 → +18,00</div>
+      </div>
+
+      <div class="kota-nula"><span>Kota terena ±0,00</span><span>↓ Ispod</span></div>
+
+      <!-- ISPOD KOTE -->
+      <div class="pojas pojas--dole pojas--d1">
+        <div class="srafura srafura--puna"></div>
+        <div class="pojas-ime">Asfalt</div>
+        <div class="pojas-opis">Habajući i bitumenizirani noseći sloj. Kolovozi, prilazi, manipulativne površine i platoi.</div>
+        <div class="pojas-mera">−0,10 m</div>
+      </div>
+      <div class="pojas pojas--dole pojas--d2">
+        <div class="srafura srafura--kosa"></div>
+        <div class="pojas-ime">Noseći sloj</div>
+        <div class="pojas-opis">Drobljeni kameni agregat, razastiranje i valjanje do projektovane zbijenosti.</div>
+        <div class="pojas-mera">−0,30 m</div>
+      </div>
+      <div class="pojas pojas--dole pojas--d3">
+        <div class="srafura srafura--zrno"></div>
+        <div class="pojas-ime">Tampon</div>
+        <div class="pojas-opis">Šljunak i separacija. Prevoz sopstvenim kiperima — bez čekanja na podizvođače.</div>
+        <div class="pojas-mera">−0,60 m</div>
+      </div>
+      <div class="pojas pojas--dole pojas--d4">
+        <div class="srafura srafura--tacke"></div>
+        <div class="pojas-ime">Posteljica</div>
+        <div class="pojas-opis">Zemljani radovi: iskop, nasip, planiranje i zbijanje. Odavde počinje svaki projekat.</div>
+        <div class="pojas-mera">−0,60 m i niže</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DELATNOST ===================== -->
+<section class="delatnost">
+  <div class="omot">
+    <div class="otkrij">
+      <p class="oznaka oznaka--tiho">Delatnost</p>
+      <h2 class="naslov-sekcije" style="margin-top:20px">Četiri stvari koje radimo sopstvenim ljudima i mašinama.</h2>
+    </div>
+
+    <div class="mreza-delatnosti otkrij">
+      <article class="kartica">
+        <span class="kartica-br">01 — Niskogradnja</span>
+        <h3>Zemljani radovi</h3>
+        <p>Iskop, nasip, planiranje i zbijanje terena. Priprema temeljne jame, uređenje platoa i regulacija odvodnjavanja.</p>
+        <ul><li>Iskop</li><li>Nasip</li><li>Planiranje</li><li>Zbijanje</li></ul>
+      </article>
+      <article class="kartica">
+        <span class="kartica-br">02 — Infrastruktura</span>
+        <h3>Putevi i platoi</h3>
+        <p>Izrada donjeg i gornjeg stroja kolovoza, prilaznih puteva, parkinga i manipulativnih površina.</p>
+        <ul><li>Tampon</li><li>Noseći sloj</li><li>Asfalt</li></ul>
+      </article>
+      <article class="kartica">
+        <span class="kartica-br">03 — Mehanizacija</span>
+        <h3>Prevoz i najam</h3>
+        <p>Preko deset jedinica mehanizacije i sopstveni vozni park. Bageri, utovarivači i kiperi sa operaterom, po satu ili po projektu.</p>
+        <ul><li>Bager</li><li>Utovarivač</li><li>Kiper</li><li>Valjak</li></ul>
+      </article>
+      <article class="kartica">
+        <span class="kartica-br">04 — Investicije</span>
+        <h3>Stanovi</h3>
+        <p>Sopstvena izgradnja stambenih objekata u Valjevu. U Dušanovoj 78 ostala su tri prostora.</p>
+        <ul><li>Prodaja</li><li>Ključ u ruke</li></ul>
+      </article>
+      <article class="kartica">
+        <span class="kartica-br">05 — Investicije</span>
+        <h3>Poslovna hala</h3>
+        <p>Završena hala od 1.000 m² u industrijskoj zoni Beloševac. Useljiva odmah — proizvodnja, skladištenje ili logistika.</p>
+        <ul><li>Zakup</li><li>Logistika</li><li>Skladište</li></ul>
+      </article>
+      <article class="kartica" style="justify-content:center">
+        <span class="kartica-br">Upit</span>
+        <h3 style="max-width:12ch">Recite nam šta gradite.</h3>
+        <p>Izlazak na teren i procena u okviru Kolubarskog okruga — bez naknade.</p>
+        <a href="tel:+381656513351" class="dug dug--tamno" style="align-self:flex-start;margin-top:8px">Pozovite <span class="strelica">→</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HALA ===================== -->
+<section class="hala" id="hala">
+  <div class="traka">
+    <video id="videoHala" autoplay muted loop playsinline preload="metadata"
+      src="https://cdn.prod.website-files.com/6492e2026a0732d2cb214af1%2F68f388bb4109f8d166813789_Video-transcode.mp4"></video>
+    <div class="traka-veo"></div>
+    <div class="omot traka-natpis">
+      <span class="mono">Beloševac bb — 1.000 m² — objekat završen 2026.</span>
+      <button class="traka-dugme" id="dugmeVideo" aria-label="Pauziraj snimak">Pauza</button>
+    </div>
+  </div>
+
+  <div class="omot hala-omot">
+    <div class="hala-grid">
+      <div class="otkrij">
+        <p class="oznaka">Izdavanje hale</p>
+        <h2 class="naslov-sekcije">Hala je završena. Useljiva odmah.</h2>
+        <p class="uvod">Hiljadu kvadrata u industrijskoj zoni Beloševac. Čist raspon bez stubova, svetla visina za regale u tri nivoa i direktan pristup šleperima. Spremno za proizvodnju, skladištenje ili logistiku.</p>
+        <div class="status"><span class="tacka"></span> Dostupno za zakup</div>
+        <div class="hero-akcije" style="margin-top:30px">
+          <a href="tel:+381656513351" class="dug dug--puno">Zakažite obilazak <span class="strelica">→</span></a>
+        </div>
+      </div>
+
+      <dl class="specifikacija otkrij">
+        <div class="spec-red"><dt>Površina</dt><dd>1.000 <b>m²</b></dd></div>
+        <div class="spec-red"><dt>Dužina</dt><dd>78 <b>m</b></dd></div>
+        <div class="spec-red"><dt>Širina</dt><dd>12 <b>m</b></dd></div>
+        <div class="spec-red"><dt>Svetla visina</dt><dd>6,5 <b>m</b></dd></div>
+        <div class="spec-red"><dt>Zona</dt><dd>Industrijska</dd></div>
+        <div class="spec-red"><dt>Status</dt><dd><b>Useljivo</b></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NEKRETNINE ===================== -->
+<section class="nekretnine" id="nekretnine">
+  <div class="omot">
+    <div class="presek-zag otkrij">
+      <div>
+        <p class="oznaka oznaka--tiho">Nekretnine</p>
+        <h2 class="naslov-sekcije" style="margin-top:20px">Ostala su tri prostora.</h2>
+      </div>
+      <div>
+        <p class="uvod">Dva objekta u Dušanovoj 78, u centru Valjeva. Gotovo sve je prodato — evo šta je još slobodno.</p>
+        <span class="preostalo"><b>3</b> od 12 jedinica</span>
+      </div>
+    </div>
+
+    <div class="zgrade otkrij">
+      <!-- 78/a -->
+      <article class="zgrada">
+        <div class="zgrada-zaglavlje">
+          <h3>Dušanova 78/a</h3>
+          <p>Slobodni lokal u prizemlju i jedan stan na četvrtom spratu.</p>
+        </div>
+        <div class="spratovi">
+          <div class="sprat sprat--slobodan">
+            <span class="sprat-ime">Lokal
+              <span class="sprat-mesto">Prizemlje — poslovni prostor</span>
+            </span>
+            <span class="cip cip--slobodno">U ponudi</span>
+          </div>
+          <div class="sprat sprat--prodat"><span class="sprat-ime">Galerija</span><span class="cip">Prodato</span></div>
+          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 1</span><span class="cip">Prodato</span></div>
+          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 2</span><span class="cip">Prodato</span></div>
+          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 3</span><span class="cip">Prodato</span></div>
+          <div class="sprat sprat--slobodan">
+            <span class="sprat-ime">Stan br. 16
+              <span class="sprat-mesto">Sprat 4</span>
+            </span>
+            <span class="cip cip--slobodno">U ponudi</span>
+          </div>
+          <div class="sprat sprat--prodat"><span class="sprat-ime">Potkrovlje</span><span class="cip">Prodato</span></div>
+        </div>
+        <div class="zgrada-podnozje">
+          <span class="mono" style="color:#5A5548">Tlocrt i kvadratura na upit</span>
+          <a href="tel:+381656513351" class="dug dug--tamno">Upit <span class="strelica">&rarr;</span></a>
+        </div>
+      </article>
+
+      <!-- 78/b -->
+      <article class="zgrada">
+        <div class="zgrada-zaglavlje">
+          <h3>Dušanova 78/b</h3>
+          <p>Jedan stan, dupleks preko četvrtog sprata i potkrovlja.</p>
+        </div>
+        <div class="spratovi">
+          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 1</span><span class="cip">Prodato</span></div>
+          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 2</span><span class="cip">Prodato</span></div>
+          <div class="sprat sprat--prodat"><span class="sprat-ime">Sprat 3</span><span class="cip">Prodato</span></div>
+          <div class="sprat sprat--slobodan">
+            <span class="sprat-ime">Stan br. 15
+              <span class="sprat-mesto">Sprat 4 + potkrovlje &middot; dupleks</span>
+            </span>
+            <span class="cip cip--slobodno">U ponudi</span>
+          </div>
+        </div>
+        <div class="zgrada-podnozje">
+          <span class="mono" style="color:#5A5548">Useljivo po dogovoru</span>
+          <a href="tel:+381656513351" class="dug dug--tamno">Upit <span class="strelica">&rarr;</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== KONTAKT ===================== -->
+<section class="kontakt" id="kontakt">
+  <div class="omot">
+    <div class="kontakt-grid">
+      <div class="otkrij">
+        <p class="oznaka">Kontakt</p>
+        <h2 class="naslov-sekcije" style="margin-top:20px">Izađemo na teren, pa se dogovorimo.</h2>
+        <p class="uvod" style="color:rgba(233,229,220,.7)">Najbrže je telefonom. Javite se u toku radnog dana i recite lokaciju i obim posla.</p>
+        <a href="tel:+381656513351" class="dug dug--puno" style="margin-top:32px">+381 65 65 13 351 <span class="strelica">→</span></a>
+      </div>
+
+      <dl class="podaci otkrij">
+        <div class="podatak"><dt>Adresa</dt><dd>Prijedorska 13<br>14000 Valjevo, Srbija</dd></div>
+        <div class="podatak"><dt>Telefon</dt><dd>
+          <a href="tel:+381656513351">+381 65 65 13 351</a>
+          <a href="tel:+381648016247">+381 64 80 16 247</a>
+          <a href="tel:+38162231870">+381 62 23 18 70</a>
+        </dd></div>
+        <div class="podatak"><dt>E-pošta</dt><dd><a href="mailto:liogradnja@yahoo.com">liogradnja@yahoo.com</a></dd></div>
+        <div class="podatak"><dt>Gradilište</dt><dd>Hala — Beloševac bb<br>Stanovi — Dušanova 78</dd></div>
+      </dl>
+    </div>
+
+    <div class="podnozje">
+      <span class="mono">© 2026 LIO Gradnja — Sva prava zadržana</span>
+      <nav class="podnozje-linkovi">
+        <a href="#presek" class="mono" style="color:rgba(233,229,220,.55)">Delatnost</a>
+        <a href="#hala" class="mono" style="color:rgba(233,229,220,.55)">Hala</a>
+        <a href="#nekretnine" class="mono" style="color:rgba(233,229,220,.55)">Nekretnine</a>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var smanjeno = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* zaglavlje */
+  var zag = document.getElementById('zaglavlje');
+  function skrol(){ zag.classList.toggle('zalepljeno', window.scrollY > 40); }
+  skrol(); window.addEventListener('scroll', skrol, {passive:true});
+
+  /* mobilni meni */
+  var burger = document.getElementById('burger'), meni = document.getElementById('meni');
+  burger.addEventListener('click', function(){
+    var o = meni.classList.toggle('otvoren');
+    burger.classList.toggle('otvoren', o);
+    burger.setAttribute('aria-expanded', o);
+    zag.classList.add('zalepljeno');
+  });
+  meni.addEventListener('click', function(e){
+    if(e.target.tagName === 'A'){ meni.classList.remove('otvoren'); burger.classList.remove('otvoren'); }
+  });
+
+  /* otkrivanje pri skrolu */
+  var oko = new IntersectionObserver(function(ulazi){
+    ulazi.forEach(function(u){
+      if(u.isIntersecting){ u.target.classList.add('vidljiv'); oko.unobserve(u.target); }
+    });
+  }, {threshold:.14, rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.otkrij').forEach(function(el){ oko.observe(el); });
+
+  /* brojači */
+  function brojac(el){
+    var cilj = parseInt(el.dataset.broj,10), t0 = null, trajanje = 3200;
+    if(smanjeno){ el.innerHTML = cilj + '<i>+</i>'; return; }
+    function korak(t){
+      if(!t0) t0 = t;
+      var p = Math.min((t-t0)/trajanje,1);
+      var e = 1 - Math.pow(1-p,4);
+      el.innerHTML = Math.round(cilj*e) + '<i>+</i>';
+      if(p<1) requestAnimationFrame(korak);
+    }
+    requestAnimationFrame(korak);
+  }
+  var okoBroj = new IntersectionObserver(function(ulazi){
+    ulazi.forEach(function(u){
+      if(u.isIntersecting){ brojac(u.target); okoBroj.unobserve(u.target); }
+    });
+  }, {threshold:.6});
+  document.querySelectorAll('[data-broj]').forEach(function(el){ okoBroj.observe(el); });
+
+  /* kontrola snimka hale */
+  var vid = document.getElementById('videoHala'), dv = document.getElementById('dugmeVideo');
+  if(vid && dv){
+    if(smanjeno){ vid.pause(); dv.textContent='Pusti'; }
+    dv.addEventListener('click', function(){
+      if(vid.paused){ vid.play(); dv.textContent='Pauza'; dv.setAttribute('aria-label','Pauziraj snimak'); }
+      else { vid.pause(); dv.textContent='Pusti'; dv.setAttribute('aria-label','Pusti snimak'); }
+    });
+  }
+
+  /* kota linija se iscrtava */
+  var kl = document.getElementById('kotaLinija');
+  if(kl){
+    var okoKota = new IntersectionObserver(function(u){
+      if(u[0].isIntersecting){ kl.style.setProperty('--napredak','100%'); okoKota.disconnect(); }
+    },{threshold:.4});
+    okoKota.observe(kl);
+  }
+
+  /* dijagram: šrafure */
+  var dij = document.getElementById('dijagram');
+  if(dij){
+    var okoDij = new IntersectionObserver(function(u){
+      if(u[0].isIntersecting){ dij.classList.add('vidljiv'); okoDij.disconnect(); }
+    },{threshold:.25});
+    okoDij.observe(dij);
+  }
+})();
+</script>
+</body>
+</html>
