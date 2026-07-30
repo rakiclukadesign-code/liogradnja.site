@@ -73,7 +73,8 @@ a{color:inherit;text-decoration:none}
 .oznaka--tiho{color:var(--beton)}
 .oznaka--tiho::before{background:var(--beton)}
 
-h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-height:1.02;margin:0}
+h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-height:1.02;margin:0;text-wrap:balance}
+p,li,dd,dt,figcaption{text-wrap:pretty}
 .naslov-sekcije{font-size:clamp(30px,4.2vw,54px);max-width:16ch}
 .uvod{font-size:clamp(16px,1.5vw,19px);color:#4B473E;max-width:56ch;margin:18px 0 0}
 
@@ -89,8 +90,16 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 }
 .dug .strelica{transition:transform .28s ease}
 .dug:hover .strelica{transform:translateX(5px)}
-.dug--puno{background:var(--zut);color:var(--bit)}
-.dug--puno:hover{background:var(--bit);color:var(--kost)}
+.dug--puno{
+  background:rgba(201,146,43,.32);
+  border-color:var(--zut);
+  color:var(--bela);
+}
+.dug--puno:hover{
+  background:var(--zut);
+  border-color:var(--zut);
+  color:var(--bit);
+}
 .dug--linija{border-color:rgba(233,229,220,.4);color:var(--kost)}
 .dug--linija:hover{border-color:var(--kost);background:var(--kost);color:var(--bit)}
 .dug--tamno{border-color:var(--linija);color:var(--bit)}
@@ -123,9 +132,11 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 .meni a:hover::after{width:100%}
 .tel-zag{
   font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;
-  color:var(--bit);background:var(--zut);padding:11px 18px;transition:background .25s ease;
+  color:var(--bela);background:rgba(201,146,43,.32);
+  border:1px solid var(--zut);padding:10px 17px;
+  transition:background .25s ease,color .25s ease;
 }
-.tel-zag:hover{background:var(--zut-mek)}
+.tel-zag:hover{background:var(--zut);color:var(--bit)}
 .burger{display:none;background:none;border:0;padding:10px;cursor:pointer}
 .burger span{display:block;width:24px;height:1.5px;background:var(--kost);margin:5px 0;transition:transform .3s,opacity .3s}
 .burger.otvoren span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
@@ -213,7 +224,11 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
   transition:background .3s ease;
 }
 .pojas:last-child{border-bottom:0}
-.pojas:hover{background:rgba(201,146,43,.06)}
+/* hover ne menja osnovnu boju sloja — samo prebacuje oker sloj preko nje,
+   pa tekst na tamnim trakama ostaje čitljiv */
+.pojas{transition:box-shadow .3s ease}
+.pojas--gore:hover{background:#F3EFE6}
+.pojas--dole:hover{box-shadow:inset 0 0 0 100vmax rgba(201,146,43,.14)}
 .pojas-ime{font-family:var(--display);font-weight:700;font-size:clamp(15px,1.7vw,20px);letter-spacing:-.01em;position:relative;z-index:2}
 .pojas-opis{font-size:14.5px;color:#5A5548;line-height:1.5;position:relative;z-index:2}
 .pojas-mera{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-align:right;color:var(--beton);position:relative;z-index:2}
@@ -234,7 +249,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 .pojas--dole{color:var(--kost)}
 .pojas--dole .pojas-opis{color:rgba(233,229,220,.62)}
 .pojas--dole .pojas-mera{color:rgba(233,229,220,.45)}
-.pojas--dole:hover{background:rgba(201,146,43,.1)}
+
 .pojas--d1{background:var(--zemlja);min-height:78px}
 .pojas--d2{background:#211E18;min-height:96px}
 .pojas--d3{background:#1B1914;min-height:118px}
@@ -284,6 +299,8 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 }
 .traka-natpis{
   position:absolute;left:0;right:0;bottom:22px;z-index:3;
+  width:var(--sirina);
+  max-width:calc(100% - 2 * var(--guter));
   margin-inline:auto;
   display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
 }
@@ -410,20 +427,16 @@ h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.028em;line-
 @media (hover:none){
   .dug{transition:opacity .15s ease}
   .dug:hover .strelica,.dug .strelica{transform:none}
-  .dug--puno:hover{background:var(--zut);color:var(--bit)}
+  .dug--puno:hover{background:rgba(201,146,43,.32);color:var(--bela);border-color:var(--zut)}
   .dug--linija:hover{background:transparent;color:var(--kost);border-color:rgba(233,229,220,.4)}
   .dug--tamno:hover{background:transparent;color:var(--bit);border-color:var(--linija)}
   .dug:active{opacity:.62}
   .traka-dugme{transition:opacity .15s ease}
   .traka-dugme:hover{background:none;color:rgba(233,229,220,.8);border-color:rgba(233,229,220,.34)}
   .traka-dugme:active{opacity:.62}
-  .tel-zag:hover{background:var(--zut)}
+  .tel-zag:hover{background:rgba(201,146,43,.32);color:var(--bela)}
   .kartica:hover{background:var(--bela)}
-  .pojas:hover,.pojas--dole:hover{background:inherit}
-  .pojas--d1:hover{background:var(--zemlja)}
-  .pojas--d2:hover{background:#211E18}
-  .pojas--d3:hover{background:#1B1914}
-  .pojas--d4:hover{background:var(--bit)}
+  .pojas--dole:hover{box-shadow:none}
   .pojas--gore:hover{background:var(--bela)}
   .sprat:hover{background:transparent}
   .sprat--prodat:hover{opacity:.34}
